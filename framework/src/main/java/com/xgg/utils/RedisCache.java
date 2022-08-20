@@ -122,7 +122,15 @@ public class RedisCache
     {
         return redisTemplate.opsForList().range(key, 0, -1);
     }
-
+    /**
+     * 更新redis的值
+     * @param key 缓存键值
+     * @param hkey 缓存map里的键值对的键值
+     * @param v 缓存数据的对象
+     */
+    public void incrementCacheMapValue(String key,String hkey,Integer v){
+        redisTemplate.opsForHash().increment(key,hkey,v);
+    }
     /**
      * 缓存Set
      *

@@ -9,6 +9,12 @@ spring:
     password: 123
     driver-class-name: com.mysql.cj.jdbc.Driver
 
+oss:
+  endpoint: oss-cn-hangzhou.aliyuncs.com
+  bucketName: gullimall-xgg
+  accessKeyId: LTAI5tJwtpPdtQakEmwwac4B
+  accessKeySecret: Zqm1O0R06ND1UYTuB8no7ihjbk0Tso
+
   servlet:
     multipart:
       max-file-size:
@@ -28,7 +34,4 @@ mybatis-plus:
       id-type: auto
 
 
-oss:
-  accessKey: TyfB_YrXJBqdnaFbG8vc9f76rfGpaWwJrYQTrRvB
-  secretKey: LEobz6S20cKi3slHjYH_eEg7hVrKaAMLr9J7A2B5
-  bucket: sphreixl
+

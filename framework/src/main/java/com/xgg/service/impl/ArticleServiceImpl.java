@@ -3,7 +3,7 @@ package com.xgg.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.google.common.primitives.Longs;
+
 import com.xgg.constants.SystemConstants;
 import com.xgg.domain.ResponseResult;
 import com.xgg.domain.entity.Article;
@@ -15,6 +15,7 @@ import com.xgg.domain.vo.PageVo;
 import com.xgg.enums.AppHttpCodeEnum;
 import com.xgg.handler.exception.SystemException;
 import com.xgg.mapper.ArticleMapper;
+import com.xgg.mapper.CategoryMapper;
 import com.xgg.service.ArticleService;
 import com.xgg.service.CategoryService;
 import com.xgg.utils.BeanCopyUtils;
@@ -25,6 +26,7 @@ import org.springframework.util.ObjectUtils;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
@@ -32,7 +34,7 @@ import java.util.stream.Collectors;
 public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> implements ArticleService {
 
     @Autowired
-    private CategoryService categoryService;
+    private CategoryMapper categoryMapper;
     @Autowired
     private RedisCache redisCache;
 
@@ -78,7 +80,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         List<Article> articles = page.getRecords();
         //查询categoryName
         articles.stream()
-                .map(article -> article.setCategoryName(categoryService.getById(article.getCategoryId()).getName()))
+                .map(article -> article.setCategoryName(categoryMapper.selectById(article.getCategoryId()).getName()))
                 .collect(Collectors.toList());
         //articleId去查询articleName进行设置
 //        for (Article article : articles) {
@@ -101,11 +103,14 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     public ResponseResult getArticleDetail(Long id) {
         //根据id查询文章
         Article article = getById(id);
+        //从redis中获取
+        Integer viewCount = redisCache.getCacheMapValue("article:viewCount", id.toString());
+        article.setViewCount(viewCount.longValue());
         //转换成VO
         ArticleDetailVo articleDetailVo = BeanCopyUtils.copyBean(article, ArticleDetailVo.class);
         //根据分类id查询分类名
         Long categoryId = articleDetailVo.getCategoryId();
-        Category category = categoryService.getById(categoryId);
+        Category category = categoryMapper.selectById(categoryId);
         if(category!=null){
             articleDetailVo.setCategoryName(category.getName());
         }
@@ -115,16 +120,8 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
 
     @Override
     public ResponseResult updateViewCount(Long id) {
-        //判断文章是否存在
-        if(Objects.isNull(getById(id))){
-            throw new SystemException(AppHttpCodeEnum.ARTICLE_NOT_NULL);
-        }
-        //根据id拿到redis当中的数据
-        String viewCount = redisCache.getCacheObject("articleId:" + id);
-
-        //将redis的数据进行自增,并且重新加载回redis
-        redisCache.setCacheObject("articleId:" + id, Longs.tryParse(viewCount)+1L);
+       redisCache.incrementCacheMapValue("article:viewCount",id.toString(),1);
         //封装返回
-        return ResponseResult.okResult(Longs.tryParse(viewCount)+1L);
+        return ResponseResult.okResult();
     }
 }

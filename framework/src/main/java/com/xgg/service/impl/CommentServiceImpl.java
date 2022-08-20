@@ -55,6 +55,7 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
         //查询所有的子评论集合，并且赋值给对应的属性
         commentVoList
                 .forEach(commentVo -> {
+
                     commentVo.setChildren(getChildrenList(commentVo.getId()));
                 });
 
@@ -82,6 +83,7 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
         List<CommentVo> commentVos = BeanCopyUtils.copyBeanList(list, CommentVo.class);
         commentVos.forEach(commentVo -> {
             commentVo.setUsername(user.getById(commentVo.getCreateBy()).getNickName());
+            commentVo.setAvatar(user.getById(commentVo.getCreateBy()).getAvatar());
             if (commentVo.getToCommentId() != -1) {
                 commentVo.setToCommentUserName(user.getById(commentVo.getToCommentUserId()).getNickName());
             }

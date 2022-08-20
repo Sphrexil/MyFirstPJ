@@ -19,9 +19,11 @@
     <dependencies>
         <dependency>
             <groupId>com.xgg</groupId>
-            <artifactId>framwork</artifactId>
+            <artifactId>framework</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
+
+
     </dependencies>
 
 </project>

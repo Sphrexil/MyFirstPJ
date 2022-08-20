@@ -5,6 +5,7 @@ package com.xgg.controller;
 import com.xgg.annoation.SystemLog;
 import com.xgg.domain.ResponseResult;
 import com.xgg.service.ArticleService;
+import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
  * @since 2022-04-03 18:55:17
  */
 @RestController
+@Api(tags = "评论")
 @RequestMapping("/article")
 public class ArticleController  {
 

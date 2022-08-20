@@ -31,4 +31,6 @@ public class CommentVo {
     private String username;
 
     private List<CommentVo> children;
+
+    private String avatar;
 }

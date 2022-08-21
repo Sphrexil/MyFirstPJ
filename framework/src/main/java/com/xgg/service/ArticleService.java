@@ -3,6 +3,7 @@ package com.xgg.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.xgg.domain.ResponseResult;
 import com.xgg.domain.entity.Article;
+import com.xgg.domain.vo.ArticleVo;
 
 public interface ArticleService extends IService<Article> {
     ResponseResult hotArticleList();
@@ -12,4 +13,6 @@ public interface ArticleService extends IService<Article> {
     ResponseResult getArticleDetail(Long id);
 
     ResponseResult updateViewCount(Long id);
+
+    ResponseResult commitArticle(ArticleVo article);
 }

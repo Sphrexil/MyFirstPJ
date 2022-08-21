@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.xgg.domain.ResponseResult;
 import com.xgg.domain.entity.Comment;
 
+import javax.servlet.http.HttpServletRequest;
+
 
 /**
  * 评论表(SgComment)表服务接口
@@ -15,7 +17,7 @@ public interface CommentService extends IService<Comment> {
 
     ResponseResult commentList(String commentType,Long articleId, Integer pageNum, Integer pageSize);
 
-    ResponseResult addComment(Comment comment);
+    ResponseResult addComment(Comment comment, HttpServletRequest request);
 }
 
 

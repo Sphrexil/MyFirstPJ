@@ -8,26 +8,16 @@ import com.xgg.constants.SystemConstants;
 import com.xgg.domain.ResponseResult;
 import com.xgg.domain.entity.Article;
 import com.xgg.domain.entity.Category;
-import com.xgg.domain.vo.ArticleDetailVo;
-import com.xgg.domain.vo.ArticleListVo;
-import com.xgg.domain.vo.HotArticleVo;
-import com.xgg.domain.vo.PageVo;
-import com.xgg.enums.AppHttpCodeEnum;
-import com.xgg.handler.exception.SystemException;
+import com.xgg.domain.vo.*;
 import com.xgg.mapper.ArticleMapper;
 import com.xgg.mapper.CategoryMapper;
 import com.xgg.service.ArticleService;
-import com.xgg.service.CategoryService;
 import com.xgg.utils.BeanCopyUtils;
 import com.xgg.utils.RedisCache;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.ObjectUtils;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -37,6 +27,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     private CategoryMapper categoryMapper;
     @Autowired
     private RedisCache redisCache;
+
 
     @Override
     public ResponseResult hotArticleList() {
@@ -122,6 +113,24 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     public ResponseResult updateViewCount(Long id) {
        redisCache.incrementCacheMapValue("article:viewCount",id.toString(),1);
         //封装返回
+        return ResponseResult.okResult();
+    }
+
+    @Override
+    public ResponseResult commitArticle(ArticleVo article) {
+
+        if (Objects.isNull(article)) {
+            throw new RuntimeException();
+        }
+        Long categoryId = article.getCategoryId();
+        Category category = categoryMapper.selectById(categoryId);
+        Article relArticle = BeanCopyUtils.copyBean(article, Article.class);
+        relArticle.setCategoryName(category.getName());
+        relArticle.setStatus("0");
+        relArticle.setDelFlag(1);
+        //DateFormat df1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        relArticle.setCreateTime(new Date());
+        this.baseMapper.insert(relArticle);
         return ResponseResult.okResult();
     }
 }

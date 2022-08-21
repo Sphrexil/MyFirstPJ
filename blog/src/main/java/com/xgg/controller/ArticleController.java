@@ -4,6 +4,7 @@ package com.xgg.controller;
 
 import com.xgg.annoation.SystemLog;
 import com.xgg.domain.ResponseResult;
+import com.xgg.domain.vo.ArticleVo;
 import com.xgg.service.ArticleService;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,6 +53,12 @@ public class ArticleController  {
     public ResponseResult updateViewCount(@PathVariable("id") Long id ){
 
         return articleService.updateViewCount(id);
+    }
+
+    @PostMapping("/commitArticle")
+    public ResponseResult commitArticle(@RequestBody ArticleVo article){
+
+        return articleService.commitArticle(article);
     }
 }
 

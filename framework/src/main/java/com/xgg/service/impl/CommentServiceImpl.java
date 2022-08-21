@@ -18,7 +18,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * 评论表(SgComment)表服务实现类
@@ -64,10 +66,13 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
     }
 
     @Override
-    public ResponseResult addComment(Comment comment) {
+    public ResponseResult addComment(Comment comment, HttpServletRequest request) {
         if (!StringUtils.hasText(comment.getContent())) {
             throw new SystemException(AppHttpCodeEnum.NULL_CONTENT);
+        } else if(Objects.isNull(request.getHeader("token"))) {
+            throw new SystemException(AppHttpCodeEnum.NEED_LOGIN);
         }
+
         save(comment);
         return ResponseResult.okResult();
     }

@@ -11,6 +11,12 @@ public class SystemConstants
      */
     public static final int ARTICLE_STATUS_NORMAL = 0;
 
+    /**
+     *  文章删除状态
+     */
+    public static final int ARTICLE_DEL_STATUS_NORMAL = 1;
+
+    public static final int ARTICLE_DEL_STATUS_NOT_NORMAL = 1;
 
     public static final String  STATUS_NORMAL = "0";
     /**

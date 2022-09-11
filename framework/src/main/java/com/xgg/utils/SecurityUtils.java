@@ -2,8 +2,9 @@ package com.xgg.utils;
 
 
 import com.xgg.domain.entity.LoginUser;
-import org.springframework.security.core.Authentication;
+
 import org.springframework.security.core.context.SecurityContextHolder;
+
 
 /**
  * @Author 三更  B站： https://space.bilibili.com/663528522
@@ -16,14 +17,15 @@ public class SecurityUtils
      **/
     public static LoginUser getLoginUser()
     {
-        return (LoginUser) getAuthentication().getPrincipal();
+        return (LoginUser) getAuthentication();
     }
 
     /**
      * 获取Authentication
+     * @return
      */
-    public static Authentication getAuthentication() {
-        return SecurityContextHolder.getContext().getAuthentication();
+    public static Object getAuthentication() {
+        return SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     }
 
     public static Boolean isAdmin(){

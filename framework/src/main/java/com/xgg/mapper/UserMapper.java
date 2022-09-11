@@ -3,6 +3,9 @@ package com.xgg.mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.xgg.domain.entity.User;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 
 /**
@@ -14,6 +17,10 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface UserMapper extends BaseMapper<User> {
 
+
+    List<String> getUserAllPermissions(@Param("userId") Long userId);
+
+    List<String> getUserAllRoleKeys(@Param("userId") Long userId);
 }
 
 

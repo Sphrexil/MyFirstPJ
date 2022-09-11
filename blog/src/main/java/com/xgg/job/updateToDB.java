@@ -23,12 +23,13 @@ public class updateToDB {
     private RedisCache redisCache;
     @Autowired
     private ArticleService articleService;
+
     //设置好分隔两分钟更新到数据库一次
-    @Scheduled(cron = "0/30 * * * * ? " )
-    public void update(){
-        Map<String,Integer> viewCountMap = redisCache.getCacheMap("article:viewCount");
-        List<Article> articles=viewCountMap.entrySet().stream()
-                .map(entry->new Article(Long.valueOf(entry.getKey()),entry.getValue().longValue()))
+    @Scheduled(cron = "0/30 * * * * ? ")
+    public void update() {
+        Map<String, Integer> viewCountMap = redisCache.getCacheMap("article:viewCount");
+        List<Article> articles = viewCountMap.entrySet().stream()
+                .map(entry -> new Article(Long.valueOf(entry.getKey()), entry.getValue().longValue()))
                 .collect(Collectors.toList());
         articleService.updateBatchById(articles);
     }

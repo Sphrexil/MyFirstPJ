@@ -2,6 +2,7 @@ package com.xgg.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.xgg.domain.entity.Comment;
+import org.apache.ibatis.annotations.Mapper;
 
 
 /**
@@ -10,6 +11,7 @@ import com.xgg.domain.entity.Comment;
  * @author makejava
  * @since 2022-04-09 15:29:55
  */
+@Mapper
 public interface CommentMapper extends BaseMapper<Comment> {
 
 }

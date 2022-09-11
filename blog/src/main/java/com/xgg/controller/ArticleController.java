@@ -60,5 +60,17 @@ public class ArticleController  {
 
         return articleService.commitArticle(article);
     }
+
+    @GetMapping ("/queryMyArticles/{userId}")
+    public ResponseResult queryMyArticles(@PathVariable("userId") Long useId){
+
+        return articleService.queryMyArticles(useId);
+    }
+
+    @DeleteMapping ("/deleteMyArticle/{articleId}")
+    public ResponseResult deleteMyArticle(@PathVariable("articleId") Long articleId){
+
+        return articleService.deleteMyArticle(articleId);
+    }
 }
 

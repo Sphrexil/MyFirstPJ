@@ -37,22 +37,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 //关闭csrf
                 .csrf().disable()
                 //不通过Session获取SecurityContext
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
-                .authorizeRequests()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().authorizeRequests()
                 // 对于登录接口 允许匿名访问
                 .antMatchers("/login").anonymous()
                 //注销接口需要认证才能访问
                 .antMatchers("/logout").authenticated()
                 .antMatchers("/user/userInfo").authenticated()
+                .antMatchers("/article/queryMyArticles/*").authenticated()
 //                .antMatchers("/upload").authenticated()
                 // 除上面外的所有请求全部不需要认证即可访问
                 .anyRequest().permitAll();
 
         //配置异常处理器
-        http.exceptionHandling()
-                .authenticationEntryPoint(authenticationEntryPoint)
-                .accessDeniedHandler(accessDeniedHandler);
+        http.exceptionHandling().authenticationEntryPoint(authenticationEntryPoint).accessDeniedHandler(accessDeniedHandler);
         //关闭默认的注销功能
         http.logout().disable();
         //把jwtAuthenticationTokenFilter添加到SpringSecurity的过滤器链中
@@ -62,7 +59,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
-    public PasswordEncoder passwordEncoder(){
+    public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 }

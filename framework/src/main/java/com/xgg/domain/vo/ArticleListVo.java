@@ -20,8 +20,12 @@ public class ArticleListVo {
     private String categoryName;
     //缩略图
     private String thumbnail;
-
-
+    //作者
+    private Long createBy;
+    //昵称
+    private String nickName;
+    //头像
+    private String avatar;
     //访问量
     private Long viewCount;
 

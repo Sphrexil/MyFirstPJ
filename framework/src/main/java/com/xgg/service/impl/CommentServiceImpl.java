@@ -14,6 +14,8 @@ import com.xgg.mapper.CommentMapper;
 import com.xgg.service.CommentService;
 import com.xgg.service.UserService;
 import com.xgg.utils.BeanCopyUtils;
+import com.xgg.utils.JwtUtil;
+import io.jsonwebtoken.Claims;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -71,6 +73,15 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
             throw new SystemException(AppHttpCodeEnum.NULL_CONTENT);
         } else if(Objects.isNull(request.getHeader("token"))) {
             throw new SystemException(AppHttpCodeEnum.NEED_LOGIN);
+        }
+        String token = request.getHeader("token");
+        Claims claims = null;
+        try {
+            claims = JwtUtil.parseJWT(token);
+            String userId = claims.getSubject();
+            comment.setCreateBy(Long.valueOf(userId));
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
         save(comment);

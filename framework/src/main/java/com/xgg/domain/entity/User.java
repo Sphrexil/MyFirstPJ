@@ -19,7 +19,7 @@ import java.util.Date;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@TableName("sys_user")
+@TableName("sg_user")
 public class User extends Model<User> {
     //主键@TableId
     @TableId(type = IdType.AUTO)

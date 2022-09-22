@@ -15,7 +15,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -89,6 +91,19 @@ public class UploadServiceImpl implements UploadService {
         return new ResponseResult<List<ArticleImgVo>>().ok(urls);
     }
 
+    @Override
+    public ResponseResult deleteImgs(String[] imgs) {
+        OSS ossClient = new OSSClientBuilder().build(endpoint, accessKeyId, accessKeySecret);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd/");
+        String datePath = sdf.format(new Date());
+        for (String img : imgs) {
+            String path = new StringBuilder().append(datePath).append(img).toString();
+            boolean exist = ossClient.doesObjectExist(bucketName, path);
+            ossClient.deleteObject(bucketName, path);
+        }
+        return ResponseResult.okResult();
+    }
+
     private String uploadOss(MultipartFile imgFile, String filePath) throws IOException {
 
         OSS ossClient = new OSSClientBuilder().build(endpoint, accessKeyId, accessKeySecret);
@@ -99,7 +114,6 @@ public class UploadServiceImpl implements UploadService {
             ossClient.putObject(
                     new PutObjectRequest(bucketName, filePath, imgFile.getInputStream()));
         }
-
 //默认不指定key的情况下，以文件内容的hash值作为文件名
         String key = filePath;
         String host =

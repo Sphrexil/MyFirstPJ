@@ -14,7 +14,7 @@ public class SystemConstants
     /**
      *  文章删除状态
      */
-    public static final int ARTICLE_DEL_STATUS_NORMAL = 1;
+    public static final int ARTICLE_DEL_STATUS_NORMAL = 0;
 
     public static final int ARTICLE_DEL_STATUS_NOT_NORMAL = 1;
 
@@ -32,4 +32,5 @@ public class SystemConstants
      */
     public static final String LINK_COMMENT = "1";
     public static final Long COMMENT_ROOT = -1l;
+    public static final String ADMIN = "1";
 }

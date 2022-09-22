@@ -46,4 +46,13 @@
           AND sm.status = 0
           AND sm.del_flag = 0;
     </select>
+    <select id="selectPermsByUserId" resultType="java.lang.String">
+        SELECT perms
+        FROM sys_user_role c
+                 LEFT JOIN sys_role_menu b ON b.role_id = c.role_id
+                 LEFT JOIN sys_menu a ON a.id = b.menu_id
+        WHERE c.user_id = 2
+          AND a.status = 0
+          AND a.del_flag = 0;
+    </select>
 </mapper>

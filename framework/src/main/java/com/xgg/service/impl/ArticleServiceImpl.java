@@ -61,8 +61,8 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         // 如果 有categoryId 就要 查询时要和传入的相同
         lambdaQueryWrapper.eq(Objects.nonNull(categoryId) && categoryId > 0, Article::getCategoryId, categoryId);
         // 状态是正式发布的
-        lambdaQueryWrapper.eq(Article::getStatus, SystemConstants.ARTICLE_STATUS_NORMAL).eq(Article::getDelFlag, SystemConstants.ARTICLE_DEL_STATUS_NORMAL);
-        ;
+        lambdaQueryWrapper.eq(Article::getStatus, SystemConstants.ARTICLE_STATUS_NORMAL);
+
         // 对isTop进行降序
         lambdaQueryWrapper.orderByDesc(Article::getIsTop);
 
@@ -140,9 +140,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         Category category = categoryMapper.selectById(categoryId);
         Article relArticle = BeanCopyUtils.copyBean(article, Article.class);
         relArticle.setCategoryName(category.getName());
-        relArticle.setDelFlag(1);
         //DateFormat df1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        relArticle.setCreateTime(new Date());
         this.baseMapper.insert(relArticle);
         return ResponseResult.okResult();
     }
@@ -185,8 +183,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         Article article = this.baseMapper.selectById(articleId);
         if (Objects.isNull(article)) throw new SystemException(AppHttpCodeEnum.Article_NOT_EXIST);
 
-        article.setDelFlag(0);
-        this.updateById(article);
+        removeById(articleId);
         return ResponseResult.okResult();
     }
 

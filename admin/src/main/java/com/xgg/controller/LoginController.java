@@ -10,13 +10,11 @@ import com.xgg.handler.exception.SystemException;
 import com.xgg.service.LoginService;
 import com.xgg.service.MenuService;
 import com.xgg.service.RoleService;
-import com.xgg.utils.BeanCopyUtils;
-import com.xgg.utils.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+
 
 
 @RestController

@@ -9,4 +9,6 @@ public interface UploadService {
     ResponseResult uploadImg(MultipartFile img) throws IOException;
 
     ResponseResult uploadImgs(MultipartFile[] imgs);
+
+    ResponseResult deleteImgs(String[] imgs);
 }

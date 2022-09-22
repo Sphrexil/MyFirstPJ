@@ -12,6 +12,7 @@ import com.xgg.service.ArticleService;
 import com.xgg.service.CategoryService;
 import com.xgg.service.TagService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import javax.annotation.Resource;
@@ -56,11 +57,12 @@ public class TagController {
      *
      * @return 实例对象集合
      */
-    @RequestMapping(value = "/queryListPage", method = RequestMethod.GET)
+    @GetMapping(value = "/queryListPage")
+    @PreAuthorize("@PermissionService.hasPermissions('content:link:list')")
     @ApiOperation("查询所有数据带分页") @ApiImplicitParams({
             @ApiImplicitParam(name = "pageSize", required = true, value = "每页条数",dataType = "int",paramType = "query"),
             @ApiImplicitParam(name = "pageNo", required = true, value = "当前页",dataType = "int",paramType = "query")})
-    public ResponseResult queryListPage(Tag tag) {
+    public ResponseResult queryListPage() {
         try{
 
             List<Tag> list = tagService.list();

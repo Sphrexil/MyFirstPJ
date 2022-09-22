@@ -4,10 +4,7 @@ import com.xgg.domain.ResponseResult;
 import com.xgg.domain.vo.ArticleImgVo;
 import com.xgg.service.UploadService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import sun.text.resources.FormatData;
 
@@ -29,5 +26,9 @@ public class UploadController {
     public ResponseResult uploadImgs(MultipartFile[] img) throws IOException {
 
         return uploadService.uploadImgs(img);
+    }
+    @DeleteMapping("/upload/delete/articlePictures")
+    public ResponseResult deleteImgs(@RequestBody String[] imgs) {
+        return  uploadService.deleteImgs(imgs);
     }
 }

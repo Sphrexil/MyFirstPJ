@@ -79,13 +79,6 @@
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
         </dependency>
-
-        <!--阿里云OSS-->
-        <dependency>
-            <groupId>com.aliyun.oss</groupId>
-            <artifactId>aliyun-sdk-oss</artifactId>
-        </dependency>
-
         <!--AOP-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -97,11 +90,9 @@
             <artifactId>easyexcel</artifactId>
         </dependency>
 
-
         <dependency>
             <groupId>com.aliyun.oss</groupId>
             <artifactId>aliyun-sdk-oss</artifactId>
-            <version>3.15.0</version>
         </dependency>
 
     </dependencies>
